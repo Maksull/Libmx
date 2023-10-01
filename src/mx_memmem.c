@@ -14,7 +14,7 @@ void *mx_memmem(const void *big, size_t big_len, const void *little, size_t litt
     const char *end = big_ptr + (big_len - little_len + 1);
 
     while (big_ptr < end) {
-        if (*big_ptr == *little_ptr && memcmp(big_ptr, little_ptr, little_len) == 0) {
+        if (*big_ptr == *little_ptr && mx_memcmp(big_ptr, little_ptr, little_len) == 0) {
             return (void *)big_ptr;
         }
         big_ptr++;
