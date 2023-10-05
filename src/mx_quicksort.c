@@ -1,25 +1,39 @@
 #include "libmx.h"
 
-int compare(const void* a, const void* b) {
-    const char* str1 = *(const char**)a;
-    const char* str2 = *(const char**)b;
+int mx_partition(char **arr, int left, int right) {
+    int pivot = (left + right) / 2;
+    int i = left;
+    int j = right;
 
-    int len1 = mx_strlen(str1);
-    int len2 = mx_strlen(str2);
+    while (i <= j) {
+        while (mx_strlen(arr[i]) < mx_strlen(arr[pivot]))
+            i++;
+        while (mx_strlen(arr[j]) > mx_strlen(arr[pivot]))
+            j--;
 
-    if (len1 < len2)
-        return -1;
-    else if (len1 > len2)
-        return 1;
-    else
-        return mx_strcmp(str1, str2);
+        if (i <= j) {
+            char *temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+            i++;
+            j--;
+        }
+    }
+
+    return i;
 }
 
-int mx_quicksort(char** arr, int left, int right) {
-    if (!arr)
+int mx_quicksort(char **arr, int left, int right) {
+    if (arr == NULL)
         return -1;
 
-    qsort(arr + left, right - left + 1, sizeof(char*), compare);
+    int swaps = 0;
 
-    return 0;
+    if (left < right) {
+        int pivotIndex = mx_partition(arr, left, right);
+        swaps += mx_quicksort(arr, left, pivotIndex - 1);
+        swaps += mx_quicksort(arr, pivotIndex, right);
+    }
+
+    return swaps;
 }

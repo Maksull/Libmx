@@ -2,13 +2,14 @@
 
 double mx_pow(double n, unsigned int pow)
 {
-    double result = 1.0;
-    while (pow > 0) {
-        if (pow % 2 == 1) {
-            result *= n;
-        }
-        n *= n;
-        pow /= 2;
+    double result = n;
+    if (pow == 0)
+    {
+        return 1;
+    }
+    for (unsigned int i = 1; i < pow; i++)
+    {
+        result *= n;
     }
     return result;
 }
